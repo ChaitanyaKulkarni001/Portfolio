@@ -12,4 +12,27 @@ export const collections = {
 			img_alt: z.string().optional(),
 		}),
 	}),
+	honor: defineCollection({
+		type: 'content',
+		schema: z.object({
+			title: z.string(),
+			description: z.string(),
+			publishDate: z.coerce.date(),
+			tags: z.array(z.string()).optional(),
+			img: z.string().optional(),
+			img_alt: z.string().optional(),
+		}),
+	}),
+	blog: defineCollection({
+		type: 'content',
+		schema: z.object({
+			title: z.string(),
+			description: z.string(),
+			publishDate: z.coerce.date(),
+			tags: z.array(z.string()).default([]),
+			img: z.string().optional(),
+			img_alt: z.string().optional(),
+			readTime: z.string().optional(),
+		}),
+	}),
 };

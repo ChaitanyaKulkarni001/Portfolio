@@ -1,0 +1,308 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import BlogPreview from '../components/BlogPreview.astro';
+import Hero from '../components/Hero.astro';
+
+// Fetch and sort blogs
+const blogs = (await getCollection('blog')).sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
+// Extract all unique tags
+const allTags = Array.from(
+	new Set(blogs.flatMap((blog) => blog.data.tags || []))
+).sort();
+---
+
+<BaseLayout
+	title="Blog | Chaitanya Kulkarni"
+	description="Read Chaitanya Kulkarni's latest articles and tutorials"
+>
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-10">
+			<Hero
+				title="My Blog"
+				tagline="Thoughts, tutorials, and insights on development, AI, and technology."
+				align="start"
+			/>
+			
+			<div class="search-filter-container">
+				<!-- Search input -->
+				<div class="search-box">
+					<span class="search-icon">🔍</span>
+					<input 
+						type="text" 
+						id="blog-search" 
+						placeholder="Search posts by title, description, or tags..." 
+						aria-label="Search blog posts"
+					/>
+				</div>
+				
+				<!-- Tag filters -->
+				{allTags.length > 0 && (
+					<div class="tag-filters">
+						<span class="filter-label">Filter by tag:</span>
+						<div class="tag-buttons">
+							<button class="tag-pill active" data-tag="all">All</button>
+							{allTags.map((tag) => (
+								<button class="tag-pill" data-tag={tag.toLowerCase()}>
+									#{tag}
+								</button>
+							))}
+						</div>
+					</div>
+				)}
+			</div>
+			
+			{blogs.length > 0 ? (
+				<div class="blog-container">
+					<ul class="blog-grid" id="blog-list">
+						{blogs.map((post) => (
+							<li 
+								class="blog-item" 
+								data-title={post.data.title.toLowerCase()}
+								data-desc={post.data.description.toLowerCase()}
+								data-tags={JSON.stringify(post.data.tags || []).toLowerCase()}
+							>
+								<BlogPreview post={post} />
+							</li>
+						))}
+					</ul>
+					<div id="no-results" class="no-results hidden">
+						<p>No blog posts found matching your search criteria.</p>
+					</div>
+				</div>
+			) : (
+				<div class="no-blogs">
+					<p>No posts published yet. Stay tuned!</p>
+				</div>
+			)}
+		</main>
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<script>
+	// Run query selection after script loads
+	const searchInput = document.getElementById('blog-search') as HTMLInputElement | null;
+	const tagPills = document.querySelectorAll('.tag-pill');
+	const blogItems = document.querySelectorAll('.blog-item');
+	const noResults = document.getElementById('no-results');
+	
+	let currentTag = 'all';
+	let searchQuery = '';
+	
+	function filterBlogs() {
+		let visibleCount = 0;
+		
+		blogItems.forEach((item) => {
+			const element = item as HTMLElement;
+			const title = element.getAttribute('data-title') || '';
+			const desc = element.getAttribute('data-desc') || '';
+			const tagsStr = element.getAttribute('data-tags') || '[]';
+			
+			let tags: string[] = [];
+			try {
+				tags = JSON.parse(tagsStr).map((t: string) => t.toLowerCase());
+			} catch(e) {}
+			
+			const matchesSearch = 
+				title.includes(searchQuery) || 
+				desc.includes(searchQuery) || 
+				tags.some(t => t.includes(searchQuery));
+				
+			const matchesTag = 
+				currentTag === 'all' || 
+				tags.includes(currentTag);
+				
+			if (matchesSearch && matchesTag) {
+				element.style.display = 'block';
+				element.style.opacity = '1';
+				element.style.transform = 'translateY(0)';
+				visibleCount++;
+			} else {
+				element.style.opacity = '0';
+				element.style.transform = 'translateY(10px)';
+				element.style.display = 'none';
+			}
+		});
+		
+		if (noResults) {
+			if (visibleCount === 0) {
+				noResults.classList.remove('hidden');
+			} else {
+				noResults.classList.add('hidden');
+			}
+		}
+	}
+	
+	if (searchInput) {
+		searchInput.addEventListener('input', (e) => {
+			const target = e.target as HTMLInputElement;
+			searchQuery = target.value.trim().toLowerCase();
+			filterBlogs();
+		});
+	}
+	
+	tagPills.forEach((pill) => {
+		pill.addEventListener('click', (e) => {
+			const target = e.currentTarget as HTMLButtonElement;
+			
+			// Remove active class from all pills
+			tagPills.forEach((p) => p.classList.remove('active'));
+			
+			// Add active class to clicked pill
+			target.classList.add('active');
+			
+			currentTag = target.getAttribute('data-tag') || 'all';
+			filterBlogs();
+		});
+	});
+</script>
+
+<style>
+	.blog-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	@media (min-width: 45em) {
+		.blog-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 65em) {
+		.blog-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.blog-item {
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	.search-filter-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		background: rgba(255, 255, 255, 0.02);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.05);
+		padding: 1.5rem;
+		border-radius: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	:root.theme-dark .search-filter-container {
+		background: rgba(9, 11, 17, 0.35);
+		border: 1px solid rgba(255, 255, 255, 0.04);
+	}
+
+	.search-box {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-icon {
+		position: absolute;
+		left: 1.25rem;
+		font-size: 1.1rem;
+		pointer-events: none;
+		color: var(--gray-400);
+	}
+
+	.search-box input {
+		width: 100%;
+		padding: 0.9rem 1rem 0.9rem 3rem;
+		font-size: 1rem;
+		border: 1px solid var(--gray-800);
+		border-radius: 0.75rem;
+		background: var(--gray-999);
+		color: var(--gray-100);
+		outline: none;
+		transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	:root.theme-dark .search-box input {
+		background: var(--gray-900);
+		border: 1px solid var(--gray-800);
+	}
+
+	.search-box input:focus {
+		border-color: var(--accent-light);
+		box-shadow: 0 0 10px rgba(197, 97, 246, 0.25);
+	}
+
+	.tag-filters {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.filter-label {
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		font-weight: 500;
+	}
+
+	.tag-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag-pill {
+		padding: 0.4rem 1rem;
+		border: 1px solid var(--gray-800);
+		border-radius: 999rem;
+		background: transparent;
+		color: var(--gray-200);
+		font-size: var(--text-sm);
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	:root.theme-dark .tag-pill {
+		border-color: var(--gray-700);
+	}
+
+	.tag-pill:hover {
+		border-color: var(--accent-light);
+		color: var(--gray-100);
+	}
+
+	.tag-pill.active {
+		background: var(--gradient-accent);
+		border-color: transparent;
+		color: var(--accent-text-over);
+	}
+
+	.no-results {
+		text-align: center;
+		padding: 4rem 2rem;
+		background: rgba(255, 255, 255, 0.02);
+		border-radius: 1rem;
+		border: 1px dashed var(--gray-800);
+		color: var(--gray-300);
+	}
+
+	.no-results.hidden {
+		display: none;
+	}
+
+	.no-blogs {
+		text-align: center;
+		padding: 4rem 2rem;
+		color: var(--gray-300);
+	}
+</style>

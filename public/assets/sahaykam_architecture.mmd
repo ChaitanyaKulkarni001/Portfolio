@@ -1,0 +1,38 @@
+sequenceDiagram
+    autonumber
+    participant User as User
+    participant Frontend as Web / Telegram / Voice
+    participant API as FastAPI
+    participant Agent as LangGraph Agent
+    participant Tools as Tool Layer
+    participant LLM as Azure OpenAI
+    participant DB as SQLite / FAISS
+    participant Ext as External APIs
+    participant Scheduler as APScheduler
+
+    User->>Frontend: Send message / speak / open dashboard
+    Frontend->>API: Chat request or websocket audio stream
+    API->>Agent: ask_agent(...) with session context
+    Agent->>LLM: Reason about intent and next action
+    LLM-->>Agent: Tool choice / response plan
+
+    alt Needs a tool
+        Agent->>Tools: Execute selected tool
+        Tools->>DB: Read/write memory, schedules, docs, logs
+        Tools->>Ext: Gmail / Calendar / Fit / Search / Telegram / Voice
+        Ext-->>Tools: Data / result
+        Tools-->>Agent: Tool output
+        Agent->>LLM: Final synthesis with tool results
+        LLM-->>Agent: Response text
+    else No tool needed
+        LLM-->>Agent: Direct response
+    end
+
+    Agent->>DB: Store message / metrics / memory
+    Agent-->>API: Final response
+    API-->>Frontend: Text / summary / voice reply
+
+    Scheduler->>Agent: Trigger briefing job
+    Agent->>Tools: Build summary from context/data
+    Tools-->>Agent: Digest
+    Agent->>Frontend: Push notification via Telegram

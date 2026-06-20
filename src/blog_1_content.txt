@@ -1,0 +1,24 @@
+For the past few weeks, I’ve been building Sahayakam AI — a personal agentic assistant that I’m trying to evolve into something genuinely useful in day-to-day life, not just another chatbot demo.
+Most assistants today work in a simple request-response loop.
+I wanted to explore something more continuous and proactive.
+
+Sahayakam AI runs 24/7 across Telegram and Web, maintains conversational context, works with real tools, and can proactively generate updates, reminders, summaries, and scheduled briefings instead of waiting for prompts every time.
+
+Some of the things it currently supports:
+Real-time voice conversations
+Gmail and Google Calendar integration
+Fitness and sleep summaries from Google Fit
+Live web search
+Persistent memory and multi-session conversations
+RAG-based document understanding
+Scheduled workflows and automated notifications
+Tool orchestration using LangGraph agents
+Tech stack includes LangChain, LangGraph, FastAPI, React JS, Azure OpenAI, FAISS, APScheduler, WebSockets, and Telegram Bot APIs.
+
+The most interesting part for me has been combining realtime voice interaction, long-running workflows, scheduling, memory, and external tools into one unified system that behaves more like an assistant than a traditional chatbot.
+
+This is still a continuous project. I’m actively improving the architecture, workflows, usability, and overall usefulness with the goal of making it feel like a complete assistant system with real practical value.
+
+I’d genuinely appreciate suggestions, feedback, ideas, or criticism from people working with AI systems, agents, backend infrastructure, realtime systems, or product design. There’s still a lot to improve, and I’m continuing to experiment and learn while building it.
+
+#AI #AgenticAI #LangGraph #LangChain #FastAPI #Python #GenerativeAI #VoiceAI #RAG #ArtificialIntelligence #LLM #Automation #AIEngineering #OpenAI

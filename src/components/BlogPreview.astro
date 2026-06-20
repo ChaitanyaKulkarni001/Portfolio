@@ -1,0 +1,179 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { data, slug } = Astro.props.post;
+
+// Format the date nicely
+const formattedDate = new Date(data.publishDate).toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+});
+
+// Calculate readTime dynamically if not provided
+const body = Astro.props.post.body || '';
+const wordCount = body.split(/\s+/).filter(Boolean).length;
+const calculatedReadTime = data.readTime || `${Math.max(1, Math.ceil(wordCount / 200))} min read`;
+---
+
+<a class="blog-card" href={`/blog/${slug}`}>
+	<div class="image-wrapper">
+		{data.img ? (
+			<img src={data.img} alt={data.img_alt || data.title} loading="lazy" decoding="async" />
+		) : (
+			<div class="placeholder-img">
+				<span>📝 {data.title}</span>
+			</div>
+		)}
+	</div>
+	
+	<div class="info-wrapper">
+		<div class="meta">
+			<time datetime={data.publishDate.toISOString()}>{formattedDate}</time>
+			<span class="dot">•</span>
+			<span class="read-time">{calculatedReadTime}</span>
+		</div>
+		
+		<h4 class="title">{data.title}</h4>
+		<p class="description">{data.description}</p>
+		
+		{data.tags && data.tags.length > 0 && (
+			<div class="tags">
+				{data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+			</div>
+		)}
+	</div>
+</a>
+
+<style>
+	.blog-card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		text-decoration: none;
+		background: rgba(255, 255, 255, 0.03);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 1.25rem;
+		overflow: hidden;
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+					border-color 0.3s ease, 
+					box-shadow 0.3s ease;
+	}
+
+	:root.theme-dark .blog-card {
+		background: rgba(9, 11, 17, 0.45);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+	}
+
+	.blog-card:hover,
+	.blog-card:focus-within {
+		transform: translateY(-5px);
+		border-color: var(--accent-light);
+		box-shadow: 0 12px 30px rgba(197, 97, 246, 0.15);
+	}
+
+	.image-wrapper {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: var(--gradient-subtle);
+		position: relative;
+	}
+
+	.image-wrapper img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.blog-card:hover .image-wrapper img {
+		transform: scale(1.05);
+	}
+
+	.placeholder-img {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--gradient-accent);
+		color: var(--accent-text-over);
+		padding: 1.5rem;
+		text-align: center;
+		font-family: var(--font-brand);
+		font-weight: 500;
+	}
+
+	.info-wrapper {
+		display: flex;
+		flex-direction: column;
+		padding: 1.5rem;
+		flex-grow: 1;
+		gap: 0.75rem;
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+	}
+
+	.dot {
+		color: var(--accent-regular);
+	}
+
+	.title {
+		font-size: var(--text-lg);
+		color: var(--gray-100);
+		margin: 0;
+		line-height: 1.3;
+		transition: color var(--theme-transition);
+	}
+
+	.blog-card:hover .title {
+		color: var(--accent-regular);
+	}
+	
+	:root.theme-dark .blog-card:hover .title {
+		color: var(--accent-dark);
+	}
+
+	.description {
+		font-size: 0.95rem;
+		color: var(--gray-300);
+		margin: 0;
+		line-height: 1.5;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.375rem;
+		margin-top: auto;
+		padding-top: 0.5rem;
+	}
+
+	.tag {
+		font-size: 0.8rem;
+		color: var(--accent-regular);
+		font-weight: 500;
+	}
+
+	:root.theme-dark .tag {
+		color: var(--accent-dark);
+	}
+</style>
