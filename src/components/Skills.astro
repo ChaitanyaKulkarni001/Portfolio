@@ -4,19 +4,19 @@ import Icon from './Icon.astro';
 
 <section class="box skills">
 	<div class="stack gap-2 lg:gap-4">
-		<Icon icon="terminal-window" color="var(--accent-regular)" size="2.5rem" gradient />
-		<h2>Full Stack</h2>
-		<p> I specialize in building dynamic web applications using React, Django REST Framework, and Tailwind CSS for a seamless frontend-backend experience</p>
+		<Icon icon="rocket-launch" color="var(--accent-tech-1)" size="2.5rem" gradient />
+		<h2>Agentic AI &amp; Multi-Agent Systems</h2>
+		<p>Architecting autonomous agents and multi-agent orchestrators with AWS Strands Agents and LangGraph, deployed in live client engagements.</p>
 	</div>
 	<div class="stack gap-2 lg:gap-4">
-		<Icon icon="code" color="var(--accent-regular)" size="2.5rem" gradient />
-		<h2>Problem Solver</h2>
-		<p>Proficient in solving coding problems; solved many problems on Leetcode platform</p>
+		<Icon icon="terminal-window" color="var(--accent-tech-1)" size="2.5rem" gradient />
+		<h2>RAG &amp; LLM Orchestration</h2>
+		<p>Building retrieval-augmented pipelines and semantic/vector search over structured and unstructured data, with careful prompt engineering.</p>
 	</div>
 	<div class="stack gap-2 lg:gap-4">
-		<Icon icon="strategy" color="var(--accent-regular)" size="2.5rem" gradient />
-		<h2>Strategy-Minded</h2>
-		<p>Ability to drive team success through strategic leadership and operational efficiency. </p>
+		<Icon icon="code" color="var(--accent-tech-1)" size="2.5rem" gradient />
+		<h2>Cloud-Native AI Deployment</h2>
+		<p>Owning architecture decisions across AWS and Azure — balancing performance, cost, and reliability for production AI systems.</p>
 	</div>
 </section>
 
@@ -27,6 +27,17 @@ import Icon from './Icon.astro';
 		padding: 1.5rem;
 		background-color: var(--gray-999_40);
 		box-shadow: var(--shadow-sm);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.box::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 2px;
+		background: linear-gradient(90deg, var(--accent-tech-1), var(--accent-tech-2));
+		opacity: 0.6;
 	}
 
 	.skills {
@@ -37,6 +48,7 @@ import Icon from './Icon.astro';
 
 	.skills h2 {
 		font-size: var(--text-lg);
+		font-family: var(--font-brand);
 	}
 
 	.skills p {

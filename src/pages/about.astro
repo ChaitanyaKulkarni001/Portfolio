@@ -2,57 +2,87 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 import ContactCTA from '../components/ContactCTA.astro';
-import Hero from '../components/Hero.astro';
+
+const certifications = [
+	'AWS Certified Solutions Architect – Associate',
+	'AWS Certified Cloud Practitioner',
+	'Microsoft Certified: Azure AI Fundamentals',
+];
+
+const quickFacts = [
+	'Agentic AI Developer @ DataPhi',
+	'AWS Certified Solutions Architect',
+	'Sangola, Maharashtra',
+];
 ---
 
-<BaseLayout title="About | Chaitanya Kulkarni" description="About Chaitanya Kulkarni - B.Tech Student in Computer Science Engineering with a passion for web development, AI, and machine learning.">
+<BaseLayout title="About | Chaitanya Kulkarni" description="About Chaitanya Kulkarni - Agentic AI Developer building autonomous AI agents and multi-agent systems with LangGraph, AWS Strands Agents, and RAG.">
 	<div class="stack gap-20">
 		<main class="wrapper about">
-			<Hero
-				title="About"
-				tagline="Thanks for stopping by. Read below to know more about myself and my background."
-			>
+			<header class="about-intro">
+				<div class="about-intro__text">
+					<p class="eyebrow">&gt; whoami</p>
+					<h1 class="about-title">I build AI that acts, not just answers.</h1>
+					<p class="about-lede">
+						Autonomous agents and multi-agent systems that plan, retrieve, and get things done — currently shipping that as an Agentic AI Developer at DataPhi. Off the clock: harmonium, sci-fi, and the occasional coding contest.
+					</p>
+					<div class="quick-facts">
+						{quickFacts.map((fact) => <span class="fact-pill">{fact}</span>)}
+					</div>
+				</div>
+
 				<img
-					width="1553"
-					height="473"
-					src="/assets/about.jpeg"
-					alt="Chaitanya Kulkarni at work "
+					class="about-photo"
+					width="1200"
+					height="1600"
+					src="/assets/about-hero.png"
+					alt="Chaitanya Kulkarni"
 				/>
-			</Hero>
+			</header>
 
 			<section>
-				<h2 class="section-title">Background</h2>
+				<h2 class="section-title">Experience</h2>
 				<div class="content">
-					<p>
-						Hi, I'm Chaitanya Kulkarni, Pursuing B.Tech, specializing in Computer Science and Engineering from SKN Sinhgad College of Engineering korti,Pandharpur expected to graduate in 2026. I'm passionate about technology and enjoy building dynamic web applications, exploring AI, and developing solutions using machine learning.
-					</p>
-					
+					<ul class="experience-summary">
+						<li>
+							<p class="role"><strong>Agentic AI Developer</strong> · DataPhi (PhAI — AI Vertical) <span class="date">Sept 2025 – Present</span></p>
+							<p>Architecting autonomous AI agents and multi-agent systems using AWS Strands Agents; building RAG-based search, an HR bot for Microsoft Teams, and a Multi-Agent Orchestrator for production client deployments.</p>
+						</li>
+						<li>
+							<p class="role"><strong>Trainee – Developer</strong> · Rezoomex, Remote <span class="date">Aug 2025 – Sept 2025</span></p>
+							<p>Hands-on with version control, debugging, and agile feature development, owning individual modules end-to-end.</p>
+						</li>
+					</ul>
 				</div>
 			</section>
 
 			<section>
-				<h2 class="section-title">Education</h2>
+				<h2 class="section-title">Certifications</h2>
 				<div class="content">
-					<p><strong>B.Tech in Computer Science & Engineering</strong> - Sinhgad College of Engineering Pandharpur, 2022 - 2026 (GPA: 9.72/10)</p>
-					<p><strong>HSC (Science)</strong> - New English School Jr. College Sangola, 2021 - 2022 (85.83%)</p>
-					<p><strong>SSC</strong> - Kawathekar Prashala Pandharpur, 2019 - 2020 (94.40%)</p>
+					<div class="cert-badges">
+						{certifications.map((cert) => <span class="cert-badge">{cert}</span>)}
+					</div>
 				</div>
 			</section>
 
 			<section>
 				<h2 class="section-title">Skills</h2>
 				<div class="content">
-					<p><strong>Programming Languages:</strong> Python, Java, C, C++</p>
-					<p><strong>Web Technologies:</strong> Django, DRF, React, Tailwind CSS, HTML, CSS, JS</p>
-					<p><strong>Databases:</strong> SQL, PostgreSQL</p>
-					<p><strong>Cloud:</strong> AWS</p>
-					<p><strong>Other:</strong> Data Structures and Algorithms, Basic Machine Learning</p>
+					<p><strong>AI / GenAI:</strong> Agentic AI, Multi-Agent Systems, LLM Orchestration, RAG, Prompt Engineering</p>
+					<p><strong>Frameworks:</strong> LangChain, LangGraph, AWS Strands Agents, LangSmith</p>
+					<p><strong>Cloud:</strong> AWS, Azure</p>
+					<p><strong>Development:</strong> Python, Django, Django REST Framework, React.js, REST APIs</p>
+					<p><strong>Other:</strong> Git, GitHub, Linux</p>
 				</div>
 			</section>
 
-			
-
-			
+			<section>
+				<h2 class="section-title">Education</h2>
+				<div class="content">
+					<p><strong>B.Tech in Computer Science & Engineering</strong> - Sinhgad College of Engineering Pandharpur, 2022 - 2026 (CGPA: 9.68/10)</p>
+					<p><strong>HSC (Science)</strong> - New English School Jr. College Sangola, 2021 - 2022 (85.86%)</p>
+				</div>
+			</section>
 
 			<section>
 				<h2 class="section-title">Hobbies</h2>
@@ -73,11 +103,140 @@ import Hero from '../components/Hero.astro';
 		gap: 3.5rem;
 	}
 
-	/* img {
-		margin-top: 1.5rem;
+	.about-intro {
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.about-intro__text {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		align-items: center;
+		text-align: center;
+	}
+
+	.eyebrow {
+		font-family: 'JetBrains Mono', 'Fira Code', var(--font-brand);
+		font-size: var(--text-sm);
+		letter-spacing: 0.05em;
+		color: var(--accent-tech-1);
+		background: var(--accent-tech-soft-bg);
+		border: 1px solid var(--accent-tech-soft-border);
+		border-radius: 999px;
+		padding: 0.35rem 1rem;
+		width: fit-content;
+	}
+
+	.about-title {
+		font-size: var(--text-3xl);
+		color: var(--gray-0);
+	}
+
+	.about-lede {
+		max-width: 46ch;
+		font-size: var(--text-lg);
+		color: var(--gray-300);
+	}
+
+	.quick-facts {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.6rem;
+	}
+
+	.fact-pill {
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--gray-100);
+		padding: 0.45rem 1rem;
+		border-radius: 999px;
+		border: 1px solid transparent;
+		background:
+			linear-gradient(var(--gray-999), var(--gray-999)) padding-box,
+			linear-gradient(120deg, var(--accent-tech-1), var(--accent-tech-2)) border-box;
+	}
+
+	.about :global(.about-photo) {
+		display: block;
+		width: 100%;
+		max-width: 20rem;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
 		border-radius: 1.5rem;
+		border: 3px solid transparent;
+		background:
+			linear-gradient(var(--gray-999), var(--gray-999)) padding-box,
+			linear-gradient(135deg, var(--accent-tech-1), var(--accent-tech-2)) border-box;
 		box-shadow: var(--shadow-md);
-	} */
+		flex-shrink: 0;
+	}
+
+	@media (min-width: 50em) {
+		.about-intro {
+			flex-direction: row;
+			align-items: center;
+			gap: 3.75rem;
+		}
+
+		.about-intro__text {
+			align-items: flex-start;
+			text-align: left;
+		}
+
+		.quick-facts {
+			justify-content: flex-start;
+		}
+
+		.about :global(.about-photo) {
+			max-width: 22rem;
+		}
+	}
+
+	.experience-summary {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.experience-summary .role {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem;
+		color: var(--gray-0);
+		margin-bottom: 0.25rem;
+	}
+
+	.experience-summary .date {
+		font-family: 'JetBrains Mono', 'Fira Code', var(--font-brand);
+		font-size: var(--text-sm);
+		color: var(--accent-tech-1);
+	}
+
+	.cert-badges {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.cert-badge {
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--gray-100);
+		padding: 0.5rem 1.1rem;
+		border-radius: 999px;
+		border: 1px solid transparent;
+		background:
+			linear-gradient(var(--gray-999), var(--gray-999)) padding-box,
+			linear-gradient(120deg, var(--accent-tech-1), var(--accent-tech-2)) border-box;
+	}
 
 	section {
 		display: flex;
@@ -113,8 +272,8 @@ import Hero from '../components/Hero.astro';
 			grid-template-columns: 1fr 60% 1fr;
 		}
 
-		.about > :global(:first-child) {
-			grid-column-start: 2;
+		.about-intro {
+			grid-column: 1 / 4;
 		}
 
 		section {

@@ -33,27 +33,29 @@ const honors = (await getCollection("honor"))
   <div class="stack gap-20 lg:gap-48">
     <div class="wrapper stack gap-8 lg:gap-20">
       <header class="hero">
-        <Hero
-          title="A friendly hello from Chaitanya!"
-          tagline="Crafting Dynamic Web Experiences | Machine Learning Enthusiast"
-          align="start"
-        >
-          <div class="roles">
-            <Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
-            <Pill
-              ><Icon icon="microphone-stage" size="1.33em" /> Effective Commnicator</Pill
-            >
-            <Pill><Icon icon="sun" size="1.33em" /> Leadership Capability</Pill>
-            <!-- <a href="">Download resume</a> -->
-          </div>
-        </Hero>
+        <div class="hero-copy">
+          <p class="eyebrow">&gt; agentic_ai_developer</p>
+          <Hero
+            title="Hi, I'm Chaitanya."
+            tagline="Agentic AI Developer building autonomous AI agents and multi-agent systems with LangGraph and AWS Strands Agents."
+            align="start"
+          >
+            <div class="roles">
+              <Pill><Icon icon="rocket-launch" size="1.33em" /> Agentic AI Developer</Pill>
+              <Pill><Icon icon="terminal-window" size="1.33em" /> LangGraph &amp; Multi-Agent Systems</Pill>
+              <Pill><Icon icon="code" size="1.33em" /> AWS Certified Solutions Architect</Pill>
+            </div>
+          </Hero>
+        </div>
 
-        <img
-          alt="Chaitanya Kulkarni smiling in a red plaid shirt and tortoise shell glasses"
-          width="480"
-          height="620"
-          src="/assets/portrait.jpg"
-        />
+        <div class="hero-photo">
+          <img
+            alt="Chaitanya Kulkarni"
+            width="1280"
+            height="960"
+            src="/assets/home-hero.png"
+          />
+        </div>
       </header>
 
       <!-- <div class="cta"> -->
@@ -106,13 +108,14 @@ const honors = (await getCollection("honor"))
 
                 <div class="experience-box__content">
                   <h4 class="experience-title">
-                    Data Analyst <span class="experience-company"
-                      >| DataPhi- AI</span>
+                    Agentic AI Developer <span class="experience-company"
+                      >| DataPhi (PhAI — AI Vertical)</span>
                   </h4>
                   <p class="experience-date">
                     <strong>Sept 2025 – Present</strong>
                   </p>
-                  <p class="experience-desc">Click for details</p>
+                  <p class="experience-desc">Architecting autonomous AI agents &amp; multi-agent systems for live client deployments.</p>
+                  <p class="experience-more">View details <Icon icon="arrow-right" size="0.9em" /></p>
                 </div>
               </div>
             </li>
@@ -134,7 +137,8 @@ const honors = (await getCollection("honor"))
                   <p class="experience-date">
                     <strong>Aug 2025 – Sept 2025</strong>
                   </p>
-                  <p class="experience-desc">Click for details</p>
+                  <p class="experience-desc">Hands-on with version control, debugging, and agile feature development.</p>
+                  <p class="experience-more">View details <Icon icon="arrow-right" size="0.9em" /></p>
                 </div>
               </div>
             </li>
@@ -148,12 +152,16 @@ const honors = (await getCollection("honor"))
             
             <div class="experience-modal__header">
               <img id="modalLogo" src="" alt="" class="experience-modal__logo" />
-              <h2 id="modalTitle"></h2>
+              <div>
+                <h2 id="modalTitle"></h2>
+                <p id="modalCompany" class="experience-modal__company"></p>
+              </div>
             </div>
-            
+
             <div class="experience-modal__body">
               <p id="modalDate" class="experience-modal__date"></p>
-              <div id="modalDescription" class="experience-modal__description"></div>
+              <p id="modalSummary" class="experience-modal__summary"></p>
+              <ul id="modalHighlights" class="experience-modal__highlights"></ul>
             </div>
           </div>
         </div>
@@ -161,35 +169,59 @@ const honors = (await getCollection("honor"))
         <script define:vars={{}} type="module">
           const experienceData = {
             dataphi: {
-              title: "Data Analyst at DataPhi- AI",
+              title: "Agentic AI Developer",
+              company: "DataPhi (PhAI — AI Vertical)",
               date: "Sept 2025 – Present",
               logo: "/assets/dataphi-logo.jpg",
-              description: "Currently working on agentic AI and machine learning in the PhAI vertical. Developing intelligent systems that leverage advanced AI techniques to solve complex problems."
+              summary: "Architecting and deploying autonomous AI agents and multi-agent systems for live client engagements, owning architecture decisions across AWS and Azure.",
+              highlights: [
+                "Architect autonomous AI agents and multi-agent systems using AWS Strands Agents, deployed for live client engagements.",
+                "Built a Semantic Model Conversational AI system for natural-language interaction over structured semantic data models.",
+                "Developed an AI-enabled search mechanism using semantic/vector search across large, unstructured client datasets.",
+                "Built an HR Bot for policy queries and leave management, integrated directly into Microsoft Teams.",
+                "Designed a Multi-Agent Orchestrator coordinating specialized agents across complex, multi-step workflows.",
+                "Work directly with clients to translate business requirements into technical agent architectures."
+              ]
             },
             rezoomex: {
-              title: "Trainee – Developer at Rezoomex (Remote)",
+              title: "Trainee – Developer",
+              company: "Rezoomex, Remote",
               date: "Aug 2025 – Sept 2025",
               logo: "/assets/rezoomex_logo.jpeg",
-              description: "Worked on real-world projects, delivering production-ready code and features. Won the Boston Rezoomex Smart Contract Competition, demonstrating expertise in blockchain and smart contract development."
+              summary: "Hands-on with version control, debugging, and agile feature development, owning individual modules end-to-end.",
+              highlights: [
+                "Worked within an agile team to ship features from planning through code review.",
+                "Debugged and maintained production code, building fluency with real-world version control workflows."
+              ]
             }
           };
 
           function openExperienceModal(experienceKey) {
             const data = experienceData[experienceKey];
-            
+
             if (!data) return;
 
             const modal = document.getElementById('experienceModal');
             const modalLogo = document.getElementById('modalLogo');
             const modalTitle = document.getElementById('modalTitle');
+            const modalCompany = document.getElementById('modalCompany');
             const modalDate = document.getElementById('modalDate');
-            const modalDescription = document.getElementById('modalDescription');
+            const modalSummary = document.getElementById('modalSummary');
+            const modalHighlights = document.getElementById('modalHighlights');
 
             modalLogo.src = data.logo;
-            modalLogo.alt = data.title;
+            modalLogo.alt = data.company;
             modalTitle.textContent = data.title;
+            modalCompany.textContent = data.company;
             modalDate.textContent = data.date;
-            modalDescription.textContent = data.description;
+            modalSummary.textContent = data.summary;
+
+            modalHighlights.innerHTML = '';
+            data.highlights.forEach((point) => {
+              const li = document.createElement('li');
+              li.textContent = point;
+              modalHighlights.appendChild(li);
+            });
 
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -299,127 +331,103 @@ const honors = (await getCollection("honor"))
           </div>
         </section>
 
-        <h1>Skills</h1>
-        <!-- Place this where <Skills /> was -->
-        <!-- <section class="section section--skills"> -->
+        <section class="tech-stack">
+          <header class="section-header stack gap-2 lg:gap-4">
+            <p class="eyebrow">&gt; tech_stack</p>
+            <h3>Tools &amp; Frameworks</h3>
+            <p>The agentic AI stack I build with day to day, plus the cloud and dev tooling around it.</p>
+          </header>
 
-        <div class="skills-marquee">
-          <div class="skills-marquee__track">
-            <!-- First pass of icons -->
-            <img
-              src="https://skillicons.dev/icons?i=react"
-              alt="React"
-              title="React"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=html"
-              alt="HTML5"
-              title="HTML5"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=css"
-              alt="CSS3"
-              title="CSS3"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=tailwind"
-              alt="Tailwind CSS"
-              title="Tailwind CSS"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=django"
-              alt="Django"
-              title="Django"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=python"
-              alt="Python"
-              title="Python"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=java"
-              alt="Java"
-              title="Java"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=javascript"
-              alt="JavaScript"
-              title="JavaScript"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=postgres"
-              alt="PostgreSQL"
-              title="PostgreSQL"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=mysql"
-              alt="MySQL"
-              title="MySQL"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=git"
-              alt="Git"
-              title="Git"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=github"
-              alt="GitHub"
-              title="GitHub"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=aws"
-              alt="AWS"
-              title="AWS"
-            />
-            <img src="https://skillicons.dev/icons?i=c" alt="C" title="C" />
-            <img
-              src="https://skillicons.dev/icons?i=cpp"
-              alt="C++"
-              title="C++"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=vscode"
-              alt="VS Code"
-              title="VS Code"
-            />
-
-            <!-- Duplicate for seamless loop -->
-            <img
-              src="https://skillicons.dev/icons?i=react"
-              alt="React"
-              title="React"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=html"
-              alt="HTML5"
-              title="HTML5"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=css"
-              alt="CSS3"
-              title="CSS3"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=tailwind"
-              alt="Tailwind CSS"
-              title="Tailwind CSS"
-            />
-            <img
-              src="https://skillicons.dev/icons?i=django"
-              alt="Django"
-              title="Django"
-            />
-            <!-- …and so on (you can repeat as needed) -->
+          <div class="ai-badges">
+            <span class="ai-badge">LangChain</span>
+            <span class="ai-badge">LangGraph</span>
+            <span class="ai-badge">LangSmith</span>
+            <span class="ai-badge">AWS Strands Agents</span>
+            <span class="ai-badge">AWS Bedrock</span>
+            <span class="ai-badge">RAG</span>
+            <span class="ai-badge">Prompt Engineering</span>
+            <span class="ai-badge">Azure AI Fundamentals</span>
           </div>
-        </div>
-        <!-- </section> -->
+
+          <div class="skills-marquee">
+            <div class="skills-marquee__track">
+              <!-- First pass of icons -->
+              <img src="https://skillicons.dev/icons?i=aws" alt="AWS" title="AWS" />
+              <img src="https://skillicons.dev/icons?i=azure" alt="Azure" title="Azure" />
+              <img src="https://skillicons.dev/icons?i=python" alt="Python" title="Python" />
+              <img src="https://skillicons.dev/icons?i=django" alt="Django" title="Django" />
+              <img src="https://skillicons.dev/icons?i=react" alt="React" title="React" />
+              <img src="https://skillicons.dev/icons?i=tailwind" alt="Tailwind CSS" title="Tailwind CSS" />
+              <img src="https://skillicons.dev/icons?i=postgres" alt="PostgreSQL" title="PostgreSQL" />
+              <img src="https://skillicons.dev/icons?i=linux" alt="Linux" title="Linux" />
+              <img src="https://skillicons.dev/icons?i=git" alt="Git" title="Git" />
+              <img src="https://skillicons.dev/icons?i=github" alt="GitHub" title="GitHub" />
+
+              <!-- Duplicate for seamless loop -->
+              <img src="https://skillicons.dev/icons?i=aws" alt="AWS" title="AWS" />
+              <img src="https://skillicons.dev/icons?i=azure" alt="Azure" title="Azure" />
+              <img src="https://skillicons.dev/icons?i=python" alt="Python" title="Python" />
+              <img src="https://skillicons.dev/icons?i=django" alt="Django" title="Django" />
+              <img src="https://skillicons.dev/icons?i=react" alt="React" title="React" />
+              <img src="https://skillicons.dev/icons?i=tailwind" alt="Tailwind CSS" title="Tailwind CSS" />
+              <img src="https://skillicons.dev/icons?i=postgres" alt="PostgreSQL" title="PostgreSQL" />
+              <img src="https://skillicons.dev/icons?i=linux" alt="Linux" title="Linux" />
+              <img src="https://skillicons.dev/icons?i=git" alt="Git" title="Git" />
+              <img src="https://skillicons.dev/icons?i=github" alt="GitHub" title="GitHub" />
+            </div>
+          </div>
+        </section>
 
         <style>
-          .section--skills {
+          .tech-stack {
             position: relative;
             overflow: hidden;
             padding-top: 2rem;
             padding-bottom: 2rem;
+          }
+
+          .tech-stack .section-header {
+            margin-inline: auto;
+          }
+
+          .tech-stack .eyebrow {
+            font-family: 'JetBrains Mono', 'Fira Code', var(--font-brand);
+            font-size: var(--text-sm);
+            letter-spacing: 0.05em;
+            color: var(--accent-tech-1);
+            background: var(--accent-tech-soft-bg);
+            border: 1px solid var(--accent-tech-soft-border);
+            border-radius: 999px;
+            padding: 0.35rem 1rem;
+            width: fit-content;
+            margin-inline: auto;
+          }
+
+          .ai-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 2.5rem 0;
+          }
+
+          .ai-badge {
+            font-family: 'JetBrains Mono', 'Fira Code', var(--font-brand);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--gray-100);
+            padding: 0.55rem 1.25rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background:
+              linear-gradient(var(--gray-999), var(--gray-999)) padding-box,
+              linear-gradient(120deg, var(--accent-tech-1), var(--accent-tech-2)) border-box;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }
+
+          .ai-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
           }
 
           .skills-marquee {
@@ -461,8 +469,7 @@ const honors = (await getCollection("honor"))
             }
           }
 
-          /* Match your existing section-header style */
-          .section--skills .section-header p {
+          .tech-stack .section-header p {
             color: var(--gray-300);
             font-size: var(--text-md);
           }
@@ -481,16 +488,51 @@ const honors = (await getCollection("honor"))
       gap: 2rem;
     }
 
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', 'Fira Code', var(--font-brand);
+      font-size: var(--text-sm);
+      letter-spacing: 0.05em;
+      color: var(--accent-tech-1);
+      background: var(--accent-tech-soft-bg);
+      border: 1px solid var(--accent-tech-soft-border);
+      border-radius: 999px;
+      padding: 0.35rem 1rem;
+      width: fit-content;
+    }
+
     .roles {
       display: none;
     }
 
+    .roles :global(.pill) {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.3);
+      color: var(--gray-100);
+    }
+
+    .hero-photo {
+      position: relative;
+      border-radius: 1.5rem;
+      padding: 3px;
+      background: var(--gradient-tech);
+      box-shadow: var(--shadow-md);
+    }
+
     .hero img {
+      display: block;
+      width: 100%;
       aspect-ratio: 5 / 4;
       object-fit: cover;
-      object-position: top;
-      border-radius: 1.5rem;
-      box-shadow: var(--shadow-md);
+      object-position: 75% 30%;
+      border-radius: calc(1.5rem - 3px);
+      background: var(--gray-999);
     }
 
     @media (min-width: 50em) {
@@ -501,15 +543,25 @@ const honors = (await getCollection("honor"))
         gap: 3.75rem;
       }
 
+      .hero-copy {
+        align-items: flex-start;
+      }
+
       .roles {
         margin-top: 0.5rem;
         display: flex;
+        flex-wrap: wrap;
         gap: 0.5rem;
       }
 
-      .hero img {
-        aspect-ratio: 3 / 4;
+      .hero-photo {
         border-radius: 4.5rem;
+        padding: 4px;
+      }
+
+      .hero img {
+        aspect-ratio: 4 / 5;
+        border-radius: calc(4.5rem - 4px);
         object-fit: cover;
       }
     }
@@ -691,6 +743,16 @@ const honors = (await getCollection("honor"))
       margin: 0;
       color: var(--gray-300);
       font-size: 0.98rem;
+    }
+
+    .experience-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin: 0.75rem 0 0 0;
+      color: var(--accent-tech-1);
+      font-size: var(--text-sm);
+      font-weight: 600;
     }
 
     /* responsive tweaks: larger logo and spacing on wide screens */

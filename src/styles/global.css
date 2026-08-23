@@ -34,6 +34,13 @@
 
 	--link-color: var(--accent-regular);
 
+	/* Tech accent (Agentic AI sections: Hero, Skills, About) */
+	--accent-tech-1: #0e7490;
+	--accent-tech-2: #4338ca;
+	--accent-tech-soft-bg: rgba(14, 116, 144, 0.08);
+	--accent-tech-soft-border: rgba(14, 116, 144, 0.25);
+	--gradient-tech: linear-gradient(135deg, var(--accent-tech-1), var(--accent-tech-2));
+
 	/* Gradients */
 	--gradient-stop-1: var(--accent-light);
 	--gradient-stop-2: var(--accent-regular);
@@ -106,6 +113,11 @@
 
 	--link-color: var(--accent-dark);
 
+	--accent-tech-1: #22d3ee;
+	--accent-tech-2: #818cf8;
+	--accent-tech-soft-bg: rgba(34, 211, 238, 0.08);
+	--accent-tech-soft-border: rgba(34, 211, 238, 0.25);
+
 	--gradient-stop-1: #4c11c6;
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
 	--gradient-accent-orange: linear-gradient(
@@ -128,6 +140,30 @@ html,
 body {
 	min-height: 100%;
 	overflow-x: hidden;
+}
+
+html {
+	scrollbar-color: var(--accent-tech-2) var(--gray-999);
+	scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--gray-999);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--gradient-tech);
+	border-radius: 999px;
+	border: 3px solid var(--gray-999);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(135deg, var(--accent-tech-2), var(--accent-tech-1));
 }
 
 body {
@@ -445,28 +481,70 @@ h5 {
 
 .experience-modal__header h2 {
 	font-size: var(--text-2xl);
-	margin: 0;
+	margin: 0 0 0.25rem 0;
 	color: var(--gray-100);
 }
 
-.experience-modal__date {
-	color: var(--accent-regular);
-	font-size: var(--text-md);
-	margin: 0 0 1.5rem 0;
+.experience-modal__company {
+	color: var(--accent-tech-1);
+	font-size: var(--text-sm);
 	font-weight: 600;
+	margin: 0;
+}
+
+.experience-modal__date {
+	display: inline-block;
+	color: var(--gray-100);
+	background: var(--accent-tech-soft-bg);
+	border: 1px solid var(--accent-tech-soft-border);
+	border-radius: 999px;
+	padding: 0.3rem 0.9rem;
+	font-size: var(--text-sm);
+	font-weight: 600;
+	width: fit-content;
+	margin: 0;
 }
 
 .experience-modal__body {
 	display: flex;
 	flex-direction: column;
-	gap: 1.5rem;
+	gap: 1.25rem;
 }
 
-.experience-modal__description {
+.experience-modal__summary {
+	color: var(--gray-200);
+	font-size: var(--text-md);
+	line-height: 1.6;
+	margin: 0;
+	font-weight: 500;
+}
+
+.experience-modal__highlights {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.experience-modal__highlights li {
+	position: relative;
+	padding-left: 1.35rem;
 	color: var(--gray-300);
 	font-size: var(--text-base);
-	line-height: 1.7;
-	margin: 0;
+	line-height: 1.6;
+}
+
+.experience-modal__highlights li::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.55rem;
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	background: var(--gradient-tech);
 }
 
 /* Make experience cards clickable */
